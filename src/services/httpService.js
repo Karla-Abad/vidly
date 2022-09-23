@@ -1,11 +1,5 @@
 import axios from "axios";
-import auth from "./authService";
 import { toast } from "react-toastify";
-
-// This allows axios to include a specific header to any request (post, put, delete)
-// this will include the token in every request.
-// If token not defined, then header will not be set.
-axios.defaults.headers.common["x-auth-token"] = auth.getJwt();
 
 axios.interceptors.response.use(null, (error) => {
   const expectedError =
@@ -21,9 +15,14 @@ axios.interceptors.response.use(null, (error) => {
   return Promise.reject(error);
 });
 
+function setJwt(jwt) {
+  axios.defaults.headers.common["x-auth-token"] = jwt;
+}
+
 export default {
   get: axios.get,
   post: axios.post,
   put: axios.put,
   delete: axios.delete,
+  setJwt,
 };
