@@ -8,9 +8,12 @@ class MoviesTable extends Component {
     {
       path: "title",
       label: "Title",
-      content: (movie) => (
-        <Link to={`/movies/${movie._id}`}>{movie.title}</Link>
-      ),
+      content: (movie) =>
+        this.props.user ? (
+          <Link to={`/movies/${movie._id}`}>{movie.title}</Link>
+        ) : (
+          <p>{movie.title}</p>
+        ),
     },
     { path: "genre.name", label: "Genre" },
     { path: "numberInStock", label: "Stock" },
@@ -23,14 +26,15 @@ class MoviesTable extends Component {
     },
     {
       key: "delete",
-      content: (movie) => (
-        <button
-          onClick={() => this.props.onDelete(movie)}
-          className="btn btn-danger"
-        >
-          Delete
-        </button>
-      ),
+      content: (movie) =>
+        this.props.user && (
+          <button
+            onClick={() => this.props.onDelete(movie)}
+            className="btn btn-danger"
+          >
+            Delete
+          </button>
+        ),
     },
   ];
   render() {
